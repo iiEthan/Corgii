@@ -1,4 +1,4 @@
-onst Discord = require('discord.js');
+const Discord = require('discord.js');
 const config = require('./config.json')
 const bot = new Discord.Client();
 var channelCount = 0
