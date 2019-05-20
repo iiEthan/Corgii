@@ -22,7 +22,7 @@ bot.on('voiceStateUpdate', channel => {
 
      if (cChannel.members.size > 0) {
        channelCount = channelCount + 1
-       cChannel.guild.createChannel('CORGII-' + channelCount, 'voice');
+       cChannel.guild.createChannel('CORGII-' + channelCount, { type: 'voice', reason: 'CORGII channel created'});
       }
         bot.channels.forEach((channel) => {
           if(channel.type == "voice" && channel.name.startsWith("CORGII-") && channel.members.size == 0) {
