@@ -22,7 +22,13 @@ bot.on('voiceStateUpdate', channel => {
 
      if (cChannel.members.size > 0) {
        channelCount = channelCount + 1
-       cChannel.guild.createChannel('CORGII-' + channelCount, { type: 'voice', reason: 'CORGII channel created'});
+       cChannel.guild.createChannel('CORGII-' + channelCount, { type: 'voice', reason: 'CORGII channel created'})
+       .then(channel => {
+         let category = cChannel.guild.channels.find(c => c.name == "Voice Channels" && c.type == "category");
+         if (!category) throw new Error("Category channel does not exist");
+         channel.setParent(category.id);
+       }).catch(console.error);
+
       }
         bot.channels.forEach((channel) => {
           if(channel.type == "voice" && channel.name.startsWith("CORGII-") && channel.members.size == 0) {
