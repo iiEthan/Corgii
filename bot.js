@@ -24,8 +24,7 @@ bot.on('voiceStateUpdate', channel => {
        channelCount = channelCount + 1
        cChannel.guild.createChannel('CORGII-' + channelCount, { type: 'voice', reason: 'CORGII channel created'})
        .then(channel => {
-         let category = cChannel.guild.channels.find(c => c.name == "Voice Channels" && c.type == "category");
-         if (!category) throw new Error("Category channel does not exist");
+         let category = cChannel.parent;
          channel.setParent(category.id);
        }).catch(console.error);
 
