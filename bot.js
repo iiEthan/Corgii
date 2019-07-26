@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const config = require('./config.json')
+const fs = require("fs");
 const bot = new Discord.Client();
+bot.cChannelNum = require("./cChannelNum.json");
 var channelCount = 0
 
 bot.on('ready', () => {
@@ -21,7 +23,25 @@ bot.on('voiceStateUpdate', channel => {
      let cChannel = channel.guild.channels.find(channel => channel.name === "Create Channel")
 
      if (cChannel.members.size > 0) {
+       if (bot.cChannelNum["Channel-Number"].Number == 0) {
        channelCount = channelCount + 1
+       bot.cChannelNum["Channel-Number"] = {
+         Number: channelCount
+       }
+       fs.writeFile("./cChannelNum.json", JSON.stringify(bot.cChannelNum, null, 4), err => {
+         if (err) throw err;
+       })
+     }else{
+       var _number = bot.cChannelNum["Channel-Number"].Number;
+       channelCount = _number + 1
+       bot.cChannelNum["Channel-Number"] = {
+         Number: channelCount
+       }
+       fs.writeFile("./cChannelNum.json", JSON.stringify(bot.cChannelNum, null, 4), err => {
+         if (err) throw err;
+       })
+       };
+
        cChannel.guild.createChannel('CORGII-' + channelCount, { type: 'voice', reason: 'CORGII channel created'})
        .then(channel => {
          let category = cChannel.parent;
