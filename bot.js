@@ -25,7 +25,9 @@ bot.on('voiceStateUpdate', channel => {
        cChannel.guild.createChannel('CORGII-' + channelCount, { type: 'voice', reason: 'CORGII channel created'})
        .then(channel => {
          let category = cChannel.parent;
-         channel.setParent(category.id);
+         channel.setParent(category.id).then(channel => {
+         channel.setPosition(1)
+       })
        }).catch(console.error);
 
       }
