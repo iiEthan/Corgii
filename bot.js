@@ -15,16 +15,38 @@ bot.on('ready', () => {
      console.log("Node NOT Exiting...");
  });
 
- bot.on('message', msg=> {
+bot.on('message', msg=> {
+ var args = msg.content.substring(prefix.length).split(" ");
+   if(msg.isMentioned(bot.user)) {
+     var embedPing = new Discord.RichEmbed()
+         .setTitle(`Pong! 🏓`)
+         .setFooter('Corgii Bot')
+         .setColor(0xffff00)
+         .setDescription(Math.round(bot.ping) + ' ms');
+     msg.channel.send(embedPing);
+    }});
+
+bot.on('message', msg => {
+   if (msg.author.equals(bot.user)) return;
+   if (!msg.content.startsWith(prefix)) return;
+
    var args = msg.content.substring(prefix.length).split(" ");
-     if(msg.isMentioned(bot.user)) {
-       var embedPing = new Discord.RichEmbed()
-           .setTitle(`Pong! 🏓`)
-           .setFooter('Corgii Bot')
-           .setColor(0xffff00)
-           .setDescription(Math.round(bot.ping) + ' ms');
-       msg.channel.send(embedPing);
-     }});
+
+   switch (args[0]) {
+     	//commands
+   case "setActivity":
+   if (!args[1] || !args[2]) {break;}
+
+   var cbMessage1 = msg.content.substr(msg.content.indexOf(" ") + 1);
+   var cbMessage = cbMessage1.substr(cbMessage1.indexOf(" ") + 1);
+   var upCase = (args[1]).toUpperCase()
+   if(!(upCase == "PLAYING" || "WATCHING" || "LISTENING")) {
+     break;
+   }else{
+     bot.user.setActivity(cbMessage, {type: args[1]})
+   }
+   break;
+}})
 
 bot.on('voiceStateUpdate', channel => {
   let botUser = channel.guild.members.find(member => member.id === "575119998197039105")
