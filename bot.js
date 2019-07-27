@@ -4,6 +4,7 @@ const fs = require("fs");
 const bot = new Discord.Client();
 bot.cChannelNum = require("./cChannelNum.json");
 var channelCount = 0
+const prefix = "cb";
 
 bot.on('ready', () => {
  console.log(`Logged in as ${bot.user.tag}!`);
@@ -13,6 +14,17 @@ bot.on('ready', () => {
      console.error(err);
      console.log("Node NOT Exiting...");
  });
+
+ bot.on('message', msg=> {
+   var args = msg.content.substring(prefix.length).split(" ");
+     if(msg.isMentioned(bot.user)) {
+       var embedPing = new Discord.RichEmbed()
+           .setTitle(`Pong! 🏓`)
+           .setFooter('Corgii Bot')
+           .setColor(0xffff00)
+           .setDescription(Math.round(bot.ping) + ' ms');
+       msg.channel.send(embedPing);
+     }});
 
 bot.on('voiceStateUpdate', channel => {
   let botUser = channel.guild.members.find(member => member.id === "575119998197039105")
